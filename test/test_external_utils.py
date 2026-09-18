@@ -173,6 +173,17 @@ def test_format_ner_list_reconstructs_original_string():
     ]
 
 
+def test_format_ner_list_with_trailing_unlabeled_text():
+    # An entity that does not reach the end of the string must leave the
+    # remaining text as a trailing unlabeled span.
+    text = "Paris is nice"
+    groups = [{"entity_group": "LOC", "start": 0, "end": 5}]
+    output = format_ner_list(text, groups)
+    assert "".join(span for span, _ in output) == text
+    assert output[-1] == (" is nice", None)
+    assert [(span, label) for span, label in output if label] == [("Paris", "LOC")]
+
+
 def test_format_ner_list_handles_unsorted_groups():
     # The token-classification pipeline may return groups out of positional
     # order. The output must still reconstruct the original string.
