@@ -219,3 +219,51 @@ Also check out the paper _[Gradio: Hassle-Free Sharing and Testing of ML Models 
   year = {2019},
 }
 ```
+
+
+---
+
+## Contribution Summary
+
+This section documents contributions made to this Gradio fork
+([yousefmasarwa97/gradio](https://github.com/yousefmasarwa97/gradio),
+branch `fix/keyword-args-error-message-punctuation`). It includes three logic-bug
+fixes (each with unit tests) plus documentation and message cleanup.
+
+### Logic bug fixes (with tests)
+
+1. **`format_ner_list` — out-of-order NER reconstruction** (`gradio/external_utils.py`)
+   Sorts entity groups by start offset so `HighlightedText` reconstructs the original
+   string even when the token-classification pipeline returns groups out of order.
+   No change for already-sorted input.
+
+2. **`diff()` — nested delete re-indexing** (`gradio/utils.py`)
+   `diff()` no longer re-indexes nested deletes bubbled up from recursion, which
+   previously corrupted incremental UI update patches for nested lists. Verified with
+   `apply_diff(old, diff(old, new)) == new`.
+
+3. **`_parse_file_size` — malformed input handling** (`gradio/utils.py`)
+   Raises a clear `ValueError` for malformed input (e.g. `"mb"`, `"1.5gb"`) instead of
+   crashing, and uses `is None` for the unit guard. All valid inputs parse identically.
+
+### Documentation and message fixes
+
+4. Fixed a doubled word in a user-facing error message in `gradio/blocks.py`
+   ("from from function").
+5. Fixed a garbled `render` parameter docstring across ~42 component and layout files
+   ("will not render be rendered" → "will not be rendered").
+6. Fixed a missing period in a client error message (`client/python/gradio_client/utils.py`).
+7. Improved the `Interface` class docstring example so it actually uses its input
+   (`gradio/interface.py`).
+8. Fixed assorted doubled-word typos in docstrings and comments across several files.
+
+### Commits
+
+```
+9321955  Fix format_ner_list to reconstruct text when NER groups are out of order
+869b639  Fix diff() incorrectly re-indexing nested deletes in lists
+297d9ec  Fix typos in docstrings, comments, and a user-facing error message
+a0384d4  Fix _parse_file_size to handle malformed inputs and correct unit guard
+72ce1e6  Improve Interface docstring example to use its input
+8c5b157  Fix missing period in unsupported keyword arguments error message
+```
