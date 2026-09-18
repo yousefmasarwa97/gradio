@@ -37,7 +37,7 @@ class Timer(Component):
         Parameters:
             value: Interval in seconds between each tick.
             active: Whether the timer is active.
-            render: If False, component will not render be rendered in the Blocks context. Should be used if the intention is to assign event listeners now but render the component later.
+            render: If False, component will not be rendered in the Blocks context. Should be used if the intention is to assign event listeners now but render the component later.
         """
         self.active = active
         super().__init__(value=value, render=render)

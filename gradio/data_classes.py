@@ -126,7 +126,7 @@ class PredictBodyInternal(PredictBody):
     "Separate class to avoid exposing PydanticStarletteRequest in the API validation"
 
     request: PydanticStarletteRequest | None = (
-        None  # dictionary of request headers, query parameters, url, etc. (used to to pass in request for queuing)
+        None  # dictionary of request headers, query parameters, url, etc. (used to pass in request for queuing)
     )
 
 

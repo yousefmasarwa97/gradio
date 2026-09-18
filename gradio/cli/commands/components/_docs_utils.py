@@ -301,7 +301,7 @@ def extract_docstrings(module):
             docs["__meta__"] = {"additional_interfaces": {}}
             for member_name, member in inspect.getmembers(obj):
                 if inspect.ismethod(member) or inspect.isfunction(member):
-                    # we are are only interested in these methods
+                    # we are only interested in these methods
                     if member_name not in ("__init__", "preprocess", "postprocess"):
                         continue
 

@@ -126,7 +126,7 @@ class ChatInterface(Blocks):
             description: a description for the interface; if provided, appears above the chatbot and beneath the title in regular font. Accepts Markdown and HTML content.
             flagging_mode: one of "never", "manual". If "never", users will not see a button to flag an input and output. If "manual", users will see a button to flag.
             flagging_options: a list of strings representing the options that users can choose from when flagging a message. Defaults to ["Like", "Dislike"]. These two case-sensitive strings will render as "thumbs up" and "thumbs down" icon respectively next to each bot message, but any other strings appear under a separate flag icon.
-            flagging_dir: path to the the directory where flagged data is stored. If the directory does not exist, it will be created.
+            flagging_dir: path to the directory where flagged data is stored. If the directory does not exist, it will be created.
             analytics_enabled: whether to allow basic telemetry. If None, will use GRADIO_ANALYTICS_ENABLED environment variable if defined, or default to True.
             autofocus: if True, autofocuses to the textbox when the page loads.
             autoscroll: If True, will automatically scroll to the bottom of the chatbot when a new message appears, unless the user scrolls up. If False, will not scroll to the bottom of the chatbot automatically.

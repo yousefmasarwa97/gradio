@@ -437,7 +437,7 @@ def get_component_instance(
     Parameters:
         comp: the component to instantiate. If a string, must be the name of a component, e.g. "dropdown". If a dict, must have a "name" key, e.g. {"name": "dropdown", "choices": ["a", "b"]}. If a Component object, will be returned as is.
         render: whether to render the component. If True, renders the component (if not already rendered). If False, does not do anything.
-        unrender: whether to unrender the component. If True, unrenders the the component (if already rendered) -- this is useful when constructing an Interface or ChatInterface inside of a Blocks. If False, does not do anything.
+        unrender: whether to unrender the component. If True, unrenders the component (if already rendered) -- this is useful when constructing an Interface or ChatInterface inside of a Blocks. If False, does not do anything.
     """
     if isinstance(comp, str):
         component_obj = component(comp, render=render)

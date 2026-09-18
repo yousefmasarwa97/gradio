@@ -340,7 +340,7 @@ class Block:
         self, url_or_file_path: str | Path | None
     ) -> str | None:
         """Moves a file or downloads a file from a url to a block's cache directory, adds
-        to to the block's temp_files, and returns the path to the file in cache. This
+        to the block's temp_files, and returns the path to the file in cache. This
         ensures that the file is accessible to the Block and can be served to users.
 
         This async version of the function is used when this is being called within
@@ -380,7 +380,7 @@ class Block:
         self, url_or_file_path: str | Path | None
     ) -> str | None:
         """Moves a file or downloads a file from a url to a block's cache directory, adds
-        to to the block's temp_files, and returns the path to the file in cache. This
+        to the block's temp_files, and returns the path to the file in cache. This
         ensures that the file is accessible to the Block and can be served to users.
 
         This sync version of the function is used when this is being called outside of
@@ -2287,7 +2287,7 @@ Received inputs:
             except (IndexError, KeyError) as err:
                 raise ValueError(
                     "Number of output components does not match number "
-                    f"of values returned from from function {block_fn.name}"
+                    f"of values returned from function {block_fn.name}"
                 ) from err
 
             if block.stateful:

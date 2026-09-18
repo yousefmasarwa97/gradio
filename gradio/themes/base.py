@@ -524,7 +524,7 @@ class Base(ThemeClass):
     def set(
         self,
         *,
-        # Body Attributes: These set set the values for the entire body of the app.
+        # Body Attributes: These set the values for the entire body of the app.
         body_background_fill=None,
         body_background_fill_dark=None,
         body_text_color=None,
