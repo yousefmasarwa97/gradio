@@ -50,10 +50,10 @@ class Interface(Blocks):
     Example:
         import gradio as gr
 
-        def image_classifier(inp):
-            return {'cat': 0.3, 'dog': 0.7}
+        def greet(name):
+            return "Hello " + name + "!"
 
-        demo = gr.Interface(fn=image_classifier, inputs="image", outputs="label")
+        demo = gr.Interface(fn=greet, inputs="text", outputs="text")
         demo.launch()
     Demos: hello_world, hello_world_2, hello_world_3
     Guides: the-interface-class, interface-state, reactive-interfaces, four-kinds-of-interfaces, sharing-your-app
