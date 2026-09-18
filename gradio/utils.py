@@ -1478,7 +1478,7 @@ def set_static_paths(paths: str | Path | list[str | Path]) -> None:
     """
     Set the static paths to be served by the gradio app.
 
-    Static files are are served directly from the file system instead of being copied. They are served to users with The Content-Disposition HTTP header set to "inline"
+    Static files are served directly from the file system instead of being copied. They are served to users with the Content-Disposition HTTP header set to "inline"
     when sending these files to users. This indicates that the file should be displayed directly in the browser window if possible.
     This function is useful when you want to serve files that you know will not be modified during the lifetime of the gradio app (like files used in gr.Examples).
     By setting static paths, your app will launch faster and it will consume less disk space.
@@ -1520,7 +1520,7 @@ def is_static_file(file_path: Any):
 
 def _is_static_file(file_path: Any, static_files: list[Path]) -> bool:
     """
-    Returns True if the file is a static file (i.e. is is in the static files list).
+    Returns True if the file is a static file (i.e. is in the static files list).
     """
     if not isinstance(file_path, (str, Path, FileData)):
         return False
@@ -1769,11 +1769,16 @@ def _parse_file_size(size: str | int | None) -> int | None:
     last_digit_index = next(
         (i for i, c in enumerate(size) if not c.isdigit()), len(size)
     )
-    size_int, unit = int(size[:last_digit_index]), size[last_digit_index:].upper()
+    number, unit = size[:last_digit_index], size[last_digit_index:].upper()
+    if not number:
+        raise ValueError(
+            f"Invalid file size: {size!r}. Expected a value of the form "
+            "'<number><unit>', e.g. '100mb'."
+        )
     multiple = getattr(FileSize, unit, None)
-    if not multiple:
+    if multiple is None:
         raise ValueError(f"Invalid file size unit: {unit}")
-    return multiple * size_int
+    return multiple * int(number)
 
 
 def get_heartbeat_rate() -> float:

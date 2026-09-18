@@ -690,6 +690,17 @@ def test_parse_file_size():
     assert _parse_file_size("1kb") == 1 * FileSize.KB
     assert _parse_file_size("1mb") == 1 * FileSize.MB
     assert _parse_file_size("505 Mb") == 505 * FileSize.MB
+    # bytes unit and passthrough cases
+    assert _parse_file_size("100b") == 100 * FileSize.B
+    assert _parse_file_size(1024) == 1024
+    assert _parse_file_size(None) is None
+    # malformed inputs should raise a clear ValueError instead of crashing
+    with pytest.raises(ValueError):
+        _parse_file_size("mb")  # unit only, no number
+    with pytest.raises(ValueError):
+        _parse_file_size("1.5gb")  # decimal values are not supported
+    with pytest.raises(ValueError):
+        _parse_file_size("10pb")  # unknown unit
 
 
 class TestUnhashableKeyDict:
