@@ -1371,7 +1371,7 @@ def construct_args(
     if parameters_info is None:
         if kwargs:
             raise ValueError(
-                "This endpoint does not support key-word arguments Please click on 'view API' in the footer of the Gradio app to see usage."
+                "This endpoint does not support key-word arguments. Please click on 'view API' in the footer of the Gradio app to see usage."
             )
         return _args
     num_args = len(args)
