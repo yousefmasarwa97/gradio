@@ -592,6 +592,16 @@ def test_get_extension_from_file_path_or_url(path_or_url, extension):
                 ["delete", ["data", 1], None],
             ],
         ),
+        (
+            # A nested delete (from the recursive comparison of index 0) must
+            # not be re-indexed by the top-level delete of index 1.
+            [[1, 2], 9],
+            [[1]],
+            [
+                ["delete", [0, 1], None],
+                ["delete", [1], None],
+            ],
+        ),
     ],
 )
 def test_diff(old, new, expected_diff):

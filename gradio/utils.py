@@ -1634,17 +1634,16 @@ def diff(old, new):
             common_length = min(len(obj1), len(obj2))
             for i in range(common_length):
                 edits.extend(compare_objects(obj1[i], obj2[i], path + [i]))
-            for i in range(common_length, len(obj1)):
-                edits.append(["delete", path + [i], None])
+            # Extra elements in obj1 are deleted. These deletes are applied
+            # sequentially, and each delete shifts the indices of the remaining
+            # elements down by one. So the nth extra element (0-indexed by
+            # deletes_seen) is deleted at its index minus the number of deletes
+            # already applied. This only re-indexes the top-level deletes added
+            # in this frame, not nested deletes bubbled up from the recursion above.
+            for deletes_seen, i in enumerate(range(common_length, len(obj1))):
+                edits.append(["delete", path + [i - deletes_seen], None])
             for i in range(common_length, len(obj2)):
                 edits.append(["add", path + [i], obj2[i]])
-            # Deletes are always placed at the end
-            # So subtract 1 since deleting one element will shift all the indices
-            deletes_seen = 0
-            for edit in edits:
-                if edit[0] == "delete" and isinstance(edit[1][-1], int):
-                    edit[1][-1] -= deletes_seen
-                    deletes_seen += 1
             return edits
 
         if isinstance(obj1, dict):
