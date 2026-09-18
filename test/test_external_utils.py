@@ -7,6 +7,7 @@ from gradio.external_utils import (
     component_from_parameter_schema,
     component_from_request_body_schema,
     create_endpoint_fn,
+    format_ner_list,
     get_model_info,
     resolve_schema_ref,
 )
@@ -150,6 +151,42 @@ def test_create_endpoint_fn_without_auth_token():
         call_args = mock_get.call_args
         assert "Authorization" not in call_args[1]["headers"]
         assert call_args[1]["headers"]["Content-Type"] == "application/json"
+
+
+def test_format_ner_list_empty():
+    assert format_ner_list("hello world", []) == [("hello world", None)]
+
+
+def test_format_ner_list_reconstructs_original_string():
+    text = "Alice lives in Paris"
+    groups = [
+        {"entity_group": "PER", "start": 0, "end": 5},
+        {"entity_group": "LOC", "start": 15, "end": 20},
+    ]
+    output = format_ner_list(text, groups)
+    # The concatenation of all text spans must equal the original string.
+    assert "".join(span for span, _ in output) == text
+    # Labeled spans, in reading order, are the entities.
+    assert [(span, label) for span, label in output if label] == [
+        ("Alice", "PER"),
+        ("Paris", "LOC"),
+    ]
+
+
+def test_format_ner_list_handles_unsorted_groups():
+    # The token-classification pipeline may return groups out of positional
+    # order. The output must still reconstruct the original string.
+    text = "Alice lives in Paris"
+    groups = [
+        {"entity_group": "LOC", "start": 15, "end": 20},
+        {"entity_group": "PER", "start": 0, "end": 5},
+    ]
+    output = format_ner_list(text, groups)
+    assert "".join(span for span, _ in output) == text
+    assert [(span, label) for span, label in output if label] == [
+        ("Alice", "PER"),
+        ("Paris", "LOC"),
+    ]
 
 
 def test_get_model_info_fastest_raises_value_error():

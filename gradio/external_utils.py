@@ -186,16 +186,18 @@ def format_ner_list(input_string: str, ner_groups: list[dict[str, str | int]]):
         return [(input_string, None)]
 
     output = []
-    end = 0
     prev_end = 0
 
-    for group in ner_groups:
+    # Sort by start offset so the string is reconstructed correctly even if the
+    # pipeline returns entity groups out of order. For already-sorted input
+    # (the common case) this leaves the ordering unchanged.
+    for group in sorted(ner_groups, key=lambda g: g["start"]):
         entity, start, end = group["entity_group"], group["start"], group["end"]
         output.append((input_string[prev_end:start], None))
         output.append((input_string[start:end], entity))
         prev_end = end
 
-    output.append((input_string[end:], None))
+    output.append((input_string[prev_end:], None))
     return output
 
 
